@@ -1,0 +1,115 @@
+<div>
+  <h2>Course Application</h2>
+
+  <form [formGroup]="applicationForm" (ngSubmit)="onFormSubmit()">
+    <mat-card>
+      <h4>Course</h4>
+      <div class="hspacing">
+        <mat-form-field>
+          <mat-label>Courses</mat-label>
+          <mat-select formControlName="selectedCourse" [(value)]="selectedCourse"
+                      (selectionChange)="getCourseDates()">
+            <mat-option *ngFor="let c of courses" [value]="c.id">
+              {{c.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!applicationForm.get('selectedCourse').valid && applicationForm.get('selectedCourse').touched">
+              Please select Course
+            </span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Dates</mat-label>
+          <mat-select formControlName="selectedDate" [(value)]="selectedDate">
+            <mat-option *ngFor="let d of courseDates" [value]="d.date">
+              {{ d.date | date:'longDate'}}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!applicationForm.get('selectedDate').valid && applicationForm.get('selectedDate').touched">
+              Please select Date
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <h4>Company</h4>
+      <mat-form-field class="form-field-full-width">
+        <mat-label>Name*</mat-label>
+        <input matInput placeholder="Name" formControlName="companyName" [(ngModel)]="companyName" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!applicationForm.get('companyName').valid && applicationForm.get('companyName').touched">
+            Please enter Name
+          </span>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <div class="hspacing">
+        <mat-form-field>
+          <mat-label>Phone*</mat-label>
+          <input matInput placeholder="Phone" formControlName="companyPhone"
+                 [(ngModel)]="companyPhone" [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!applicationForm.get('companyPhone').valid && applicationForm.get('companyPhone').touched">
+              Please enter Phone
+            </span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>E-mail*</mat-label>
+          <input matInput placeholder="E-mail" formControlName="companyEmail" [errorStateMatcher]="matcher" type="email" ngModel email
+                 [(ngModel)]="companyEmail">
+          <mat-error>
+            <span *ngIf="!applicationForm.get('companyEmail').valid && applicationForm.get('companyEmail').touched">
+              Please enter E-mail
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <h4>Participants</h4>
+      <h6>Participant #{{participants.length + 1}}</h6>
+      <mat-form-field class="form-field-full-width">
+        <mat-label>Name*</mat-label>
+        <input matInput placeholder="Name" class="form-field-100" [(ngModel)]="participantName" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <br />
+      <div class="hspacing">
+        <mat-form-field>
+          <mat-label>Phone</mat-label>
+          <input matInput placeholder="Phone"
+                 [(ngModel)]="participantPhone" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>E-mail</mat-label>
+          <input matInput placeholder="E-mail" type="email" ngModel email [(ngModel)]="participantEmail" [ngModelOptions]="{standalone: true}">
+
+        </mat-form-field>
+      </div>
+      <div class="button-row">
+        <button mat-flat-button color="primary" type="button" (click)="addParticipant()"
+                [disabled]="!participantName">
+          Add Participant
+        </button>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <div class="button-row">
+        <button type="submit" class="btn-block" [disabled]="!applicationForm.valid" mat-flat-button
+                color="primary">
+          Submit Application
+        </button>
+      </div>
+    </mat-card>
+
+  </form>
+
+</div>
